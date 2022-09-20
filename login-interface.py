@@ -1,7 +1,7 @@
 from tkinter import *
 import tkinter.messagebox as tkMessageBox
 import re 
-
+import tkinter as tk
 
 
 COLOR_BUTTON = "#7984EE"
@@ -17,6 +17,8 @@ password_text = 'Password: '
 #validar email
 regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
 
+
+
 #Criar tela
 screen = Tk()
 screen.title("Sistema de Login")
@@ -25,8 +27,22 @@ screen.resizable(False, False)
 screen['bg'] = COLOR_BLACK
 screen.iconphoto(True, PhotoImage(file='./images/icon.png'))
 
+def search_username(lg, pwds):
+    usuarios2 = []
+    try:
+        with open('users.txt', 'r+', encoding='Utf-8', newline='') as arquivo2:
+            for linha2 in arquivo2:
+                linha2 = linha2.strip(",")
+                usuarios2.append(linha2.split())
+                for usuario2 in usuarios2:
+                    nome2 = usuario2[0]
+                    if lg == nome2:
+                        return True
+    except FileNotFoundError:
+        return False
 
-def buscar_usuario(login, senha):
+
+def search_username_password(login, senha):
     usuarios = []
     try:
         with open('users.txt', 'r+', encoding='Utf-8', newline='') as arquivo:
@@ -65,7 +81,7 @@ def sign_up():
             break
 
     if(re.search(regex,user) and flag == 0):  
-        new_user = buscar_usuario(user, passw)
+        new_user = search_username_password(user, passw)
         if new_user == True:
             tkMessageBox.showinfo(
                 "ATENÇÃO", 
@@ -78,7 +94,7 @@ def sign_up():
                 tkMessageBox.showinfo("ATENÇÃO", message= "Novo usuário cadastrado com sucesso"),
     else:  
         tkMessageBox.showinfo("ATENÇÃO", message= "E-mail ou senha inválidos\n\n"
-        "- A senha de possuir pelo menos;\n"
+        "- A senha deve possuir pelo menos;\n"
         "- 8 caracteres\n" 
         "- Uma letra minúscula [az]\n" 
         "- Uma letra maiúscula [AZ]\n"
@@ -92,7 +108,7 @@ def sign_up():
 def sign_in():
     user = txt_input.get()
     passw = password_input.get()
-    login_user = buscar_usuario(user, passw)
+    login_user = search_username_password(user, passw)
     if login_user == True:
         tkMessageBox.showinfo("BEM VINDO", message= "Você está logado!"),
         txt_input.delete(0,"end")

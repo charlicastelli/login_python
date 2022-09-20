@@ -1,6 +1,6 @@
 # login_python
 - Sistema de login com interface
-- Futuramente vou incluir login pelo terminal 
+
 
 ## images
 ![1](https://user-images.githubusercontent.com/80997263/191089863-9085fe0e-3ad7-4907-b630-86bef1e57ba2.png)
